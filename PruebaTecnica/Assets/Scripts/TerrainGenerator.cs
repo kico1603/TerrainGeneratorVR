@@ -129,16 +129,20 @@ public class TerrainGenerator : MonoBehaviour
     /// </summary>
 
     void GeneratePath(
-        int chunkSize,
-        bool[,] isPath,
-        Vector2Int? entrada,
-        Vector2Int? ladoEntrada,
-        out Vector2Int salida)
+       int chunkSize,
+       bool[,] isPath,
+       Vector2Int? entrada,
+       Vector2Int? ladoEntrada,
+       out Vector2Int salida)
     {
         int minMargin = 1;
         int minLength = Mathf.CeilToInt(chunkSize * 0.5f);
 
+        // Validar entrada
         Vector2Int posActual = entrada ?? new Vector2Int(chunkSize / 2, chunkSize / 2);
+        posActual.x = Mathf.Clamp(posActual.x, 0, chunkSize - 1);
+        posActual.y = Mathf.Clamp(posActual.y, 0, chunkSize - 1);
+
         isPath[posActual.x, posActual.y] = true;
 
         // Definir bordes posibles para salida que NO sean igual a entrada
@@ -149,15 +153,22 @@ public class TerrainGenerator : MonoBehaviour
         // Elegir aleatoriamente el borde de salida
         Vector2Int bordeSalida = possibleBorders[Random.Range(0, possibleBorders.Count)];
 
-        // Definir punto de salida en el borde seleccionado (manteniendo distancia a las esquinas)
+        // Rango seguro para salida
+        int min = minMargin;
+        int max = chunkSize - minMargin;
+        if (max <= min) max = min + 1;
+
         Vector2Int salidaLocal = bordeSalida switch
         {
-            Vector2Int v when v == Vector2Int.up => new Vector2Int(Random.Range(minMargin, chunkSize - minMargin), chunkSize - 1),
-            Vector2Int v when v == Vector2Int.down => new Vector2Int(Random.Range(minMargin, chunkSize - minMargin), 0),
-            Vector2Int v when v == Vector2Int.left => new Vector2Int(0, Random.Range(minMargin, chunkSize - minMargin)),
-            Vector2Int v when v == Vector2Int.right => new Vector2Int(chunkSize - 1, Random.Range(minMargin, chunkSize - minMargin)),
+            Vector2Int v when v == Vector2Int.up => new Vector2Int(Random.Range(min, max), chunkSize - 1),
+            Vector2Int v when v == Vector2Int.down => new Vector2Int(Random.Range(min, max), 0),
+            Vector2Int v when v == Vector2Int.left => new Vector2Int(0, Random.Range(min, max)),
+            Vector2Int v when v == Vector2Int.right => new Vector2Int(chunkSize - 1, Random.Range(min, max)),
             _ => new Vector2Int(chunkSize / 2, chunkSize - 1)
         };
+        // Clamp también aquí por seguridad
+        salidaLocal.x = Mathf.Clamp(salidaLocal.x, 0, chunkSize - 1);
+        salidaLocal.y = Mathf.Clamp(salidaLocal.y, 0, chunkSize - 1);
 
         // Ruta básica (Primero moverse hacia centro hasta cumplir minLength)
         List<Vector2Int> pathPoints = new List<Vector2Int> { posActual };
@@ -191,12 +202,16 @@ public class TerrainGenerator : MonoBehaviour
             // Siguiente paso seguro
             Vector2Int nextPos = posActual + dir;
 
-            // Comprobar bordes internos y loops
-            if (nextPos.x <= 0 || nextPos.x >= chunkSize - 1 || nextPos.y <= 0 || nextPos.y >= chunkSize - 1)
-                nextPos = salidaLocal; // Ir directamente a salida si no seguro
+            // Clamp para seguridad absoluta
+            nextPos.x = Mathf.Clamp(nextPos.x, 0, chunkSize - 1);
+            nextPos.y = Mathf.Clamp(nextPos.y, 0, chunkSize - 1);
+
+            // Evitar loops infinitos
+            if (nextPos == posActual)
+                break;
 
             posActual = nextPos;
-            if (!pathPoints.Contains(posActual))
+            if (posActual.x >= 0 && posActual.x < chunkSize && posActual.y >= 0 && posActual.y < chunkSize && !pathPoints.Contains(posActual))
             {
                 pathPoints.Add(posActual);
                 isPath[posActual.x, posActual.y] = true;
@@ -209,6 +224,7 @@ public class TerrainGenerator : MonoBehaviour
 
         salida = salidaLocal;
     }
+
 
 
 
