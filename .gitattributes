@@ -1,2 +1,4 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+PresetAvatars_Quest.zip filter=lfs diff=lfs merge=lfs -text
+PresetAvatars_Rift.zip filter=lfs diff=lfs merge=lfs -text
