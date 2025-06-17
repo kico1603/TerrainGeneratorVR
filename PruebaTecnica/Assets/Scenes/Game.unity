@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 5a44fc1383485534a9342292a67cd747, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 6024df3877519e941a4f91f3ef0dd89e, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -1099,15 +1099,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5196929556764948799, guid: a095f3c7bd0da0047b984b3f4b9f8177, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5196929556764948799, guid: a095f3c7bd0da0047b984b3f4b9f8177, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5196929556764948799, guid: a095f3c7bd0da0047b984b3f4b9f8177, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5196929556764948799, guid: a095f3c7bd0da0047b984b3f4b9f8177, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -5190,9 +5190,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7191892585170140922, guid: e948fb601ee9b064cb56d105d38ee47f, type: 3}
+      propertyPath: chunkSize
+      value: 31
+      objectReference: {fileID: 0}
+    - target: {fileID: 7191892585170140922, guid: e948fb601ee9b064cb56d105d38ee47f, type: 3}
       propertyPath: buildInAwake
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7191892585170140922, guid: e948fb601ee9b064cb56d105d38ee47f, type: 3}
+      propertyPath: playerTransform
+      value: 
+      objectReference: {fileID: 1191266249}
     - target: {fileID: 7265867823748560438, guid: e948fb601ee9b064cb56d105d38ee47f, type: 3}
       propertyPath: m_Name
       value: 'TerrainGenerator '
@@ -5213,7 +5221,7 @@ SceneRoots:
   - {fileID: 1331829320}
   - {fileID: 1658972264}
   - {fileID: 247009691}
-  - {fileID: 1191266248}
   - {fileID: 126535639}
+  - {fileID: 1191266248}
   - {fileID: 7597083573714084933}
   - {fileID: 65635682}

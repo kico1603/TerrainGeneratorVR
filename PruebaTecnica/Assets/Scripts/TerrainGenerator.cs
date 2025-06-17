@@ -6,6 +6,7 @@ public class TerrainGenerator : MonoBehaviour
     [Header("Build")]
 
     public bool buildInAwake;
+    public Transform playerTransform;
 
     [Header("Prefabs cube")]
     public GameObject terrainCubePrefab;
@@ -27,10 +28,18 @@ public class TerrainGenerator : MonoBehaviour
     [Range(0, 1)] public float pathIrregularity = 0.3f;
 
 
+    private int centerSurfaceHeight = 0;
+
+
+
     private void Awake()
     {
         if (buildInAwake)
+        {
             GenerateTerrainGenerator();
+          
+        }
+            
     }
 
     [ContextMenu(nameof(GenerateTerrainGenerator))]
@@ -75,6 +84,14 @@ public class TerrainGenerator : MonoBehaviour
                 salidas[cx, cz] = salida;
             }
         }
+
+
+        int totalSizeX = chunkSize * numChunksX;
+        int totalSizeZ = chunkSize * numChunksZ;
+        float centerX = (totalSizeX - 1) / 2f;
+        float centerZ = (totalSizeZ - 1) / 2f;
+        this.transform.position = -new Vector3(centerX, centerSurfaceHeight - 0.5f, centerZ);
+
     }
 
     void GenerateChunkWithPath(int chunkX, int chunkZ, float offsetX, float offsetZ, Vector2Int? entrada, Vector2Int? ladoEntrada, out Vector2Int? salida)
@@ -92,6 +109,13 @@ public class TerrainGenerator : MonoBehaviour
                 float noise = Mathf.PerlinNoise(offsetX + xGlobal * noiseScale, offsetZ + zGlobal * noiseScale);
                 int height = heightBase + Mathf.RoundToInt(noise * heightMax);
                 topHeights[x, z] = height;
+
+                if (xGlobal == (numChunksX * chunkSize - 1) / 2 && zGlobal == (numChunksZ * chunkSize - 1) / 2)
+                {
+                    centerSurfaceHeight = height;
+                }
+
+
             }
         }
 
@@ -226,7 +250,6 @@ public class TerrainGenerator : MonoBehaviour
 
         salida = salidaLocal;
     }
-
 
 
 
