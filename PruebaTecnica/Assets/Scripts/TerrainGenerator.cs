@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class TerrainGenerator : MonoBehaviour
 {
+    [Header("Build")]
+
+    public bool buildInAwake;
+
     [Header("Prefabs cube")]
     public GameObject terrainCubePrefab;
     public GameObject pathCubePrefab;
@@ -10,7 +14,7 @@ public class TerrainGenerator : MonoBehaviour
 
     [Header("Terrain Settings")]
     [Range(5, 50)] public int chunkSize = 13;
-    [Range(1, 10)] public int numChunksX = 2; // Ahora cuadrícula X x Z
+    [Range(1, 10)] public int numChunksX = 2; 
     [Range(1, 10)] public int numChunksZ = 2;
     [Range(1, 5)] public int heightBase = 2;
     [Range(0, 10)] public int heightMax = 5;
@@ -22,6 +26,13 @@ public class TerrainGenerator : MonoBehaviour
     [Range(0, 1)] public float pathExpansion = 0.5f;
     [Range(0, 1)] public float pathIrregularity = 0.3f;
 
+
+    private void Awake()
+    {
+        if (buildInAwake)
+            GenerateTerrainGenerator();
+    }
+
     [ContextMenu(nameof(GenerateTerrainGenerator))]
     void GenerateTerrainGenerator()
     {
@@ -30,42 +41,37 @@ public class TerrainGenerator : MonoBehaviour
         float offsetX = seed * 37.123f + noiseOffset;
         float offsetZ = seed * 19.456f + noiseOffset;
 
-        // Para mantener el estado de la conexión del camino entre chunks
-        // Usamos un array 2D para la entrada/salida
+       
         Vector2Int?[,] entradas = new Vector2Int?[numChunksX, numChunksZ];
         Vector2Int?[,] salidas = new Vector2Int?[numChunksX, numChunksZ];
 
-        // Recorremos los chunks en orden (por ejemplo de arriba-izquierda a abajo-derecha)
+        
         for (int cx = 0; cx < numChunksX; cx++)
         {
             for (int cz = 0; cz < numChunksZ; cz++)
             {
-                // Definir la posición de entrada para el camino de este chunk
+                
                 Vector2Int? entrada = null;
-                Vector2Int? ladoEntrada = null; // Qué borde es (N/S/E/O)
+                Vector2Int? ladoEntrada = null;
                 if (cx == 0 && cz == 0)
                 {
-                    // Primer chunk, el camino empieza en el centro
                     entrada = new Vector2Int(chunkSize / 2, chunkSize / 2);
                 }
                 else if (cx > 0)
                 {
-                    // Chunk a la derecha de otro, entra por el borde izquierdo
                     entrada = salidas[cx - 1, cz];
                     ladoEntrada = Vector2Int.left;
                 }
                 else if (cz > 0)
                 {
-                    // Chunk arriba/abajo de otro, entra por el borde inferior
                     entrada = salidas[cx, cz - 1];
                     ladoEntrada = Vector2Int.down;
                 }
 
-                // Generar el chunk con camino, devolviendo el punto de salida
                 Vector2Int? salida;
                 GenerateChunkWithPath(cx, cz, offsetX, offsetZ, entrada, ladoEntrada, out salida);
 
-                // Guardar la salida para conectar el siguiente chunk
+  
                 salidas[cx, cz] = salida;
             }
         }
@@ -75,7 +81,7 @@ public class TerrainGenerator : MonoBehaviour
     {
         Vector3 offset = new Vector3(chunkX * chunkSize, 0, chunkZ * chunkSize);
 
-        // 1. Calcular alturas máximas del terreno
+     
         int[,] topHeights = new int[chunkSize, chunkSize];
         for (int x = 0; x < chunkSize; x++)
         {
@@ -89,7 +95,6 @@ public class TerrainGenerator : MonoBehaviour
             }
         }
 
-        // 2. Generar el camino: marcamos dónde va el camino y obtenemos el punto de salida
         bool[,] isPath = new bool[chunkSize, chunkSize];
         Vector2Int salidaLocal;
         GeneratePath(chunkSize, isPath, entrada, ladoEntrada, out salidaLocal);
@@ -99,7 +104,6 @@ public class TerrainGenerator : MonoBehaviour
             salidaLocal.y + chunkZ * chunkSize
         );
 
-        // 3. Instanciar cubos según si es camino o terreno
         for (int x = 0; x < chunkSize; x++)
         {
             for (int z = 0; z < chunkSize; z++)
@@ -124,9 +128,7 @@ public class TerrainGenerator : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Marca el camino en isPath y devuelve el punto de salida en el chunk (coordenadas locales)
-    /// </summary>
+
 
     void GeneratePath(
        int chunkSize,
