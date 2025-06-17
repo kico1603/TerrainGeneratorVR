@@ -22,6 +22,25 @@ public class ActionPlayer : MonoBehaviour
     public float initialSpeed = 8f;
     public float gravity = -9.81f;
 
+
+    public GameObject placementPrefab;
+    private GameObject placementInstance;
+
+    //public float gridSize = 1f;
+
+    [Range(0, 89)] public float elevationAngle = 30f; // Ángulo de elevación en grados
+
+
+
+    private void Start()
+    {
+        if (placementPrefab != null)
+        {
+            placementInstance = Instantiate(placementPrefab, Vector3.zero, Quaternion.identity);
+            placementInstance.SetActive(false);
+        }
+    }
+
     private void Update()
     {
         
@@ -126,5 +145,37 @@ public class ActionPlayer : MonoBehaviour
 
         lineRenderer.positionCount = arcPoints.Length;
         lineRenderer.SetPositions(arcPoints);
+
+
+
+        if (placementInstance != null && arcPoints.Length > 0)
+        {
+            Vector3 hitPoint = arcPoints[arcPoints.Length - 1];
+
+            // Raycast hacia abajo para encontrar el cubo real debajo del punto de impacto
+            RaycastHit hit;
+            Vector3 rayOrigin = hitPoint + Vector3.up * 2f; // Un poco por encima por si el punto es justo en el borde
+            float rayDistance = 3f;
+
+            if (Physics.Raycast(rayOrigin, Vector3.down, out hit, rayDistance))
+            {
+                // Encontramos un objeto, coloca el marcador justo encima de ese objeto
+                Vector3 above = hit.collider.transform.position + Vector3.up * hit.collider.bounds.size.y;
+                placementInstance.transform.position = above;
+                placementInstance.SetActive(true);
+            }
+            else
+            {
+                // No se encontró ningún objeto debajo, oculta el marcador (o ponlo en el punto de impacto +1 en Y como fallback)
+                placementInstance.SetActive(false);
+                // placementInstance.transform.position = hitPoint + Vector3.up; // O esta opción
+            }
+        }
+        else if (placementInstance != null)
+        {
+            placementInstance.SetActive(false);
+        }
+
+
     }
 }
