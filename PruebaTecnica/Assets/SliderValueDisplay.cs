@@ -15,6 +15,15 @@ public class SliderValueDisplay : MonoBehaviour
 
     void UpdateValueText(float value)
     {
-        valueText.text = value.ToString("0"); 
+        if(value % 1 != 0)
+            valueText.text = value.ToString("0.00"); 
+        else
+            valueText.text = value.ToString("0");
+    }
+
+    [ContextMenu(nameof(TestUpdateValueText))]
+    void TestUpdateValueText()
+    {
+        UpdateValueText(slider.value);
     }
 }

@@ -3474,27 +3474,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1816174645600401042, guid: 6a252322fe21bc94986e47f1b97861d3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1816174645600401042, guid: 6a252322fe21bc94986e47f1b97861d3, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1816174645600401042, guid: 6a252322fe21bc94986e47f1b97861d3, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 212
       objectReference: {fileID: 0}
     - target: {fileID: 1816174645600401042, guid: 6a252322fe21bc94986e47f1b97861d3, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 45.35
       objectReference: {fileID: 0}
     - target: {fileID: 1816174645600401042, guid: 6a252322fe21bc94986e47f1b97861d3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 130
       objectReference: {fileID: 0}
     - target: {fileID: 1816174645600401042, guid: 6a252322fe21bc94986e47f1b97861d3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -46.675
       objectReference: {fileID: 0}
     - target: {fileID: 1816174646150658452, guid: 6a252322fe21bc94986e47f1b97861d3, type: 3}
       propertyPath: m_AnchorMax.y
@@ -3566,7 +3566,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5905405876593906881, guid: 6a252322fe21bc94986e47f1b97861d3, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 93.35
       objectReference: {fileID: 0}
     - target: {fileID: 5905405876593906881, guid: 6a252322fe21bc94986e47f1b97861d3, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -3894,7 +3894,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2134219997
 Transform:
   m_ObjectHideFlags: 0
@@ -3966,11 +3966,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7191892585170140922, guid: e948fb601ee9b064cb56d105d38ee47f, type: 3}
       propertyPath: chunkSize
-      value: 31
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 7191892585170140922, guid: e948fb601ee9b064cb56d105d38ee47f, type: 3}
+      propertyPath: numChunksX
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7191892585170140922, guid: e948fb601ee9b064cb56d105d38ee47f, type: 3}
       propertyPath: buildInAwake
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7191892585170140922, guid: e948fb601ee9b064cb56d105d38ee47f, type: 3}
       propertyPath: playerTransform
