@@ -6,7 +6,6 @@ public class TerrainGenerator : MonoBehaviour
     [Header("Build")]
 
     public bool buildInAwake;
-    public Transform playerTransform;
 
     [Header("Prefabs cube")]
     public GameObject terrainCubePrefab;

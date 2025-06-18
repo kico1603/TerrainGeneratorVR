@@ -4,18 +4,18 @@ using Oculus.Interaction.Input;
 
 public class ActionPlayer : MonoBehaviour
 {
-    public Controller rightController;
-    public Hand hand;
+    [SerializeField] private Controller rightController;
+    [SerializeField] private Hand hand;
 
-    public Transform handTransform;
-    public Transform controllerTransform;
+    [SerializeField] private Transform handTransform;
+    [SerializeField] private Transform controllerTransform;
 
     private bool lastFist = false;
     private float fistReleasedTime = 0f;
     private bool canTriggerFist = true;
     public float fistReleaseCooldown = 0.5f;
 
-    public LineRenderer lineRenderer;
+    [SerializeField] private LineRenderer lineRenderer;
 
     public int points = 30;
     public float timeStep = 0.1f;
@@ -23,27 +23,28 @@ public class ActionPlayer : MonoBehaviour
     public float gravity = -9.81f;
 
 
-    public GameObject placementPrefab;
-    private GameObject placementInstance;
+    [SerializeField] private GameObject cubeGhost;
+
+    private ObjectsPoolTypes objectsPool;
 
     //public float gridSize = 1f;
 
     [Range(0, 89)] public float elevationAngle = 30f; // Ángulo de elevación en grados
 
+    private List<GameObject> cubesInstaced = new List<GameObject>();
 
 
     private void Start()
     {
-        if (placementPrefab != null)
-        {
-            placementInstance = Instantiate(placementPrefab, Vector3.zero, Quaternion.identity);
-            placementInstance.SetActive(false);
-        }
+
+        cubeGhost.SetActive(false);
+        objectsPool = ObjectsPoolTypes.Instance;
+
     }
 
     private void Update()
     {
-        
+
         if (rightController != null && rightController.ControllerInput.TriggerButton)
         {
             OnTriggerOrFist();
@@ -57,17 +58,17 @@ public class ActionPlayer : MonoBehaviour
 
             if (currentFist && !lastFist && canTriggerFist)
             {
-        
+
                 OnTriggerOrFist();
                 canTriggerFist = false;
             }
             else if (!currentFist && lastFist)
             {
-            
+
                 fistReleasedTime = Time.time;
             }
 
-       
+
             if (!currentFist && !canTriggerFist && (Time.time - fistReleasedTime >= fistReleaseCooldown))
             {
                 canTriggerFist = true;
@@ -81,7 +82,7 @@ public class ActionPlayer : MonoBehaviour
 
     bool IsFist(Hand hand)
     {
-        float threshold = 0.05f; 
+        float threshold = 0.05f;
         bool index = hand.GetFingerPinchStrength(HandFinger.Index) > threshold;
         bool middle = hand.GetFingerPinchStrength(HandFinger.Middle) > threshold;
         bool ring = hand.GetFingerPinchStrength(HandFinger.Ring) > threshold;
@@ -92,8 +93,13 @@ public class ActionPlayer : MonoBehaviour
     // Implement your logic here
     private void OnTriggerOrFist()
     {
-        Debug.Log("¡Disparada acción por gatillo o puño cerrado!");
-        // Tu código aquí
+        //Debug.Log("¡Disparado!");
+
+        if (cubeGhost.activeSelf)
+        {
+            cubesInstaced.Add(objectsPool.InstanciteObjectPool(ObjectsPoolTypes.TypeGameObjectIDKey.CubeMetal, cubeGhost.transform.position, cubeGhost.transform.rotation));
+        }
+
     }
 
 
@@ -148,7 +154,7 @@ public class ActionPlayer : MonoBehaviour
 
 
 
-        if (placementInstance != null && arcPoints.Length > 0)
+        if (cubeGhost != null && arcPoints.Length > 0)
         {
             Vector3 hitPoint = arcPoints[arcPoints.Length - 1];
 
@@ -161,21 +167,29 @@ public class ActionPlayer : MonoBehaviour
             {
                 // Encontramos un objeto, coloca el marcador justo encima de ese objeto
                 Vector3 above = hit.collider.transform.position + Vector3.up * hit.collider.bounds.size.y;
-                placementInstance.transform.position = above;
-                placementInstance.SetActive(true);
+                cubeGhost.transform.position = above;
+                cubeGhost.SetActive(true);
             }
             else
             {
                 // No se encontró ningún objeto debajo, oculta el marcador (o ponlo en el punto de impacto +1 en Y como fallback)
-                placementInstance.SetActive(false);
+                cubeGhost.SetActive(false);
                 // placementInstance.transform.position = hitPoint + Vector3.up; // O esta opción
             }
         }
-        else if (placementInstance != null)
+        else if (cubeGhost != null)
         {
-            placementInstance.SetActive(false);
+            cubeGhost.SetActive(false);
         }
 
 
+    }
+
+    public void RemoveAllCubes()
+    {
+        foreach (GameObject cube in cubesInstaced)
+        {
+            objectsPool.ReturnObjectToObjectPool(ObjectsPoolTypes.TypeGameObjectIDKey.CubeRock, cube);
+        }
     }
 }

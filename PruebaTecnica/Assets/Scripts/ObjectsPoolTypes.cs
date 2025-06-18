@@ -41,7 +41,9 @@ public class ObjectsPoolTypes : MonoBehaviour
     [System.Serializable]
     public enum TypeGameObjectIDKey
     {
-      Test
+        CubeRock,
+        CubeMetal,
+        Test
 
     }
 
@@ -91,12 +93,14 @@ public class ObjectsPoolTypes : MonoBehaviour
         pooledObjects = ComprobateAndRepairObjectsPoolTypes();
 #endif
 
+        Generate();
+
     }
 
-    private void Start()
-    {
-        Generate();
-    }
+    //private void Start()
+    //{
+    //    Generate();
+    //}
 
     public void Generate()
     {
@@ -146,7 +150,7 @@ public class ObjectsPoolTypes : MonoBehaviour
                     tmp.SetActive(false);
                     tmp.transform.SetParent(pooledObjects[i].containerGos.transform);
                     tmp.name = tmp.name + "_" + j;
-                    yield return null;
+                    //yield return null;
 
                     //pooledObjects.Add(tmp);
                 }
@@ -156,7 +160,7 @@ public class ObjectsPoolTypes : MonoBehaviour
         OnObjectPoolGenerationCompleted?.Invoke();
     }
 
-   
+
 
     [ContextMenu("Comprobate_And_Repair_ObjectsPoolTypes")]
     [ExecuteInEditMode]
