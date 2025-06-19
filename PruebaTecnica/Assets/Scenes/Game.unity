@@ -3974,7 +3974,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7191892585170140922, guid: e948fb601ee9b064cb56d105d38ee47f, type: 3}
       propertyPath: buildInAwake
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7191892585170140922, guid: e948fb601ee9b064cb56d105d38ee47f, type: 3}
       propertyPath: playerTransform

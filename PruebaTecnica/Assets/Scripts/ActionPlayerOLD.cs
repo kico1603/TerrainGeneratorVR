@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Oculus.Interaction.Input;
 
-public class ActionPlayer : MonoBehaviour
+public class ActionPlayerOLD : MonoBehaviour
 {
     [SerializeField] private Controller rightController;
     [SerializeField] private Hand hand;
