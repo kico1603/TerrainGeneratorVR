@@ -18,7 +18,7 @@ public class TrajectoryCalculator : MonoBehaviour, IArcCalculator
     /// </summary>
     public List<Vector3> CalculateArcPoints(Vector3 origin, Vector3 direction)
     {
-        var points = new System.Collections.Generic.List<Vector3>();
+        var points = new List<Vector3>();
         if (direction.sqrMagnitude < 0.0001f)
         {
             return points; // dirección inválida, retornar lista vacía

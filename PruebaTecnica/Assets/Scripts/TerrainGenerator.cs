@@ -5,6 +5,8 @@ public class TerrainGenerator : MonoBehaviour
 {
     [Header("Build")]
 
+    [SerializeField] private ConfigWorld configWorld;
+
     public bool buildInAwake;
 
     [Header("Prefabs cube")]
@@ -35,11 +37,15 @@ public class TerrainGenerator : MonoBehaviour
     {
         if (buildInAwake)
         {
+            ConfigWorld();
+
             GenerateTerrainGenerator();
           
         }
             
     }
+
+   
 
     [ContextMenu(nameof(GenerateTerrainGenerator))]
     void GenerateTerrainGenerator()
@@ -261,5 +267,17 @@ public class TerrainGenerator : MonoBehaviour
         {
             DestroyImmediate(transform.GetChild(i).gameObject);
         }
+    }
+
+    private void ConfigWorld()
+    {
+        this.chunkSize = configWorld.sizeChunks;
+        this.numChunksX = configWorld.numChunks;
+        this.numChunksZ = configWorld.numChunks;
+        this.heightBase = configWorld.minimHeight;
+        this.heightMax = configWorld.maxHeight;
+        this.noiseScale = configWorld.scaleNoise;
+        this.seed = configWorld.seed;
+        this.noiseOffset = configWorld.offsetNoise;
     }
 }

@@ -50,7 +50,7 @@ public class InputHandler : MonoBehaviour, IInputHandler
 
         if (IsHandTracked())
         {
-            return IsFist(hand);
+            return IsPinch(hand);
         }else if (IsControllerPoseValid())
         {
             return controller.ControllerInput.TriggerButton;
@@ -83,15 +83,12 @@ public class InputHandler : MonoBehaviour, IInputHandler
         return controllerTransform;
     }
 
-    private bool IsFist(Hand hand)
+    private bool IsPinch(Hand hand)
     {
-        float threshold = 0.05f;
+        float threshold = 0.2f;
 
         bool thumb = hand.GetFingerPinchStrength(HandFinger.Thumb) > threshold;
         bool index = hand.GetFingerPinchStrength(HandFinger.Index) > threshold;
-        //bool middle = hand.GetFingerIsPinching(HandFinger.Middle);// > threshold;
-        //bool ring = hand.GetFingerIsPinching(HandFinger.Ring); //> threshold;
-        //bool pinky = hand.GetFingerIsPinching(HandFinger.Pinky);//> threshold;
-        return index && thumb; // && ring && pinky;
+        return index && thumb; 
     }
 }

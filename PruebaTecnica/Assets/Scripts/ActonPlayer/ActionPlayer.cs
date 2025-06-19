@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ActionPlayer : MonoBehaviour
+public class ActionPlayer : MonoBehaviour, IPlayerAction
 {
     [Header("Componentes del sistema (referencias)")]
     [SerializeField] private InputHandler inputHandler;
@@ -22,6 +22,12 @@ public class ActionPlayer : MonoBehaviour
 
     private float lastShootTime = 0f;   // Momento en que se realizó el último disparo
     private bool wasFirePressed = false; // Estado previo de la entrada de disparo (para detectar cambios si es necesario)
+  
+
+    private void Awake()
+    {
+        PlayerActionService.PlayerAction = this;
+    }
 
     private void Start()
     {
@@ -37,14 +43,16 @@ public class ActionPlayer : MonoBehaviour
         // Inicializar el LineRenderer vacío
         if (_arcRend != null) _arcRend.ClearArc();
 
-        lastShootTime = -shootCooldown; // permitir disparo inmediato al inicio
+        lastShootTime = 5f; // permitir disparo inmediato al inicio
     }
 
     private void Update()
     {
+       
         if (_input == null || _arc == null || _arcRend == null || _ghost == null || _spawner == null)
         {
-            return; // Si falta alguna referencia, no ejecutar lógica
+            Debug.LogError("Falta alguna referencia");
+            return; 
         }
 
         // 1. Determinar origen y dirección según la fuente activa (mano o controlador)
@@ -114,5 +122,22 @@ public class ActionPlayer : MonoBehaviour
 
         // Guardar estado de botón para lógica de una sola pulsación si se necesitara
         wasFirePressed = firePressed;
+    }
+
+    public void ClearCubes()
+    {
+        objectSpawner.ClearObjects();
+
+    }
+
+    void OnDestroy()
+    {
+        if (PlayerActionService.PlayerAction == this)
+            PlayerActionService.PlayerAction = null;
+    }
+
+    public void DoSomething()
+    {
+        ClearCubes();
     }
 }
