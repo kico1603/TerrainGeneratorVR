@@ -89,8 +89,14 @@ public class InitLoadAndUnloadScenes : MonoBehaviour
     [ContextMenu(nameof(DEBUG_StartInitLoadScenes))]
     public void DEBUG_StartInitLoadScenes()
     {
-        StartInitLoadScenes(actualSceneInLoad);
+        StartCoroutine(StartInitLoadScenes(actualSceneInLoad));
     }
+
+    public void LoadScene(string sceneLoad)
+    {
+        StartCoroutine(StartInitLoadScenes(sceneLoad));
+    } 
+
 
     public IEnumerator StartInitLoadScenes(string sceneLoads)
     {
@@ -134,10 +140,10 @@ public class InitLoadAndUnloadScenes : MonoBehaviour
     [ContextMenu(nameof(DEBUG_StartInitUnloadScenes))]
     public void DEBUG_StartInitUnloadScenes()
     {
-        StartInitUnloadScenes(actualSceneInUnload);
+        UnloadScenes(actualSceneInUnload);
     }
 
-    public void StartInitUnloadScenes(string sceneUnloads)
+    public void UnloadScenes(string sceneUnloads)
     {
         Debug.Log(" (¡) <<<< Se pretende descargar la escena " + sceneUnloads);
 
