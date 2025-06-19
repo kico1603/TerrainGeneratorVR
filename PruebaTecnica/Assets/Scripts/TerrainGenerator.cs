@@ -267,6 +267,8 @@ public class TerrainGenerator : MonoBehaviour
         {
             DestroyImmediate(transform.GetChild(i).gameObject);
         }
+
+        transform.position = Vector3.zero;
     }
 
     private void ConfigWorld()

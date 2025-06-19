@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1accf191acc59b64b839a97307267e8e, type: 3}
   m_Name: Config World
   m_EditorClassIdentifier: 
-  sizeChunks: 13
+  sizeChunks: 20
   numChunks: 2
-  seed: 13
+  seed: 15
   minimHeight: 3
   maxHeight: 5
-  scaleNoise: 0.16512546
+  scaleNoise: 0.1
   offsetNoise: 0

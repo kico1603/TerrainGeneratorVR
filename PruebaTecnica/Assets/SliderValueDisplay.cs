@@ -22,6 +22,7 @@ public class SliderValueDisplay : MonoBehaviour
     }
 
     [ContextMenu(nameof(TestUpdateValueText))]
+    [ExecuteInEditMode]
     void TestUpdateValueText()
     {
         UpdateValueText(slider.value);
