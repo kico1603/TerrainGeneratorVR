@@ -25,7 +25,7 @@ public class ObjectSpawner : MonoBehaviour, IObjectSpawner
             Debug.LogError("ObjectSpawner: Prefab no asignado para instanciar.");
             return;
         }
-        // Instanciar el prefab en la posición y rotación dadas
+        // Instanciar el prefab en la posición y rotación dadas y anadirlo a la lista controlable
         gameObjectsInstanced.Add(objectsPool.InstanciteObjectPool(objectToInstance, position, rotation));
     }
 

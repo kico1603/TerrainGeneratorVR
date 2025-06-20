@@ -21,8 +21,7 @@ public class ActionPlayer : MonoBehaviour, IPlayerAction
     [SerializeField] private float shootCooldown = 1.0f;
 
     private float lastShootTime = 0f;   // Momento en que se realizó el último disparo
-    private bool wasFirePressed = false; // Estado previo de la entrada de disparo (para detectar cambios si es necesario)
-  
+
 
     private void Awake()
     {
@@ -43,7 +42,7 @@ public class ActionPlayer : MonoBehaviour, IPlayerAction
         // Inicializar el LineRenderer vacío
         if (_arcRend != null) _arcRend.ClearArc();
 
-        lastShootTime = 5f; // permitir disparo inmediato al inicio
+        lastShootTime = 5f; 
     }
 
     private void Update()
@@ -55,7 +54,7 @@ public class ActionPlayer : MonoBehaviour, IPlayerAction
             return; 
         }
 
-        // 1. Determinar origen y dirección según la fuente activa (mano o controlador)
+        //Determinar origen y dirección según la fuente activa (mano o controlador)
         if (!_input.IsHandTracked() && !_input.IsControllerPoseValid())
         {
             // Si no hay mano ni controlador activos, no hay trayectoria que mostrar
@@ -78,16 +77,14 @@ public class ActionPlayer : MonoBehaviour, IPlayerAction
             direction = _input.GetControllerTransform().forward;
         }
 
-        //Vector3 origin = _input.GetHandTransform();
-        //Vector3 direction = _input.GetDirection();
 
-        // 2. Calcular la trayectoria del proyectil con la física definida
+        // Calcular la trayectoria del proyectil con la fisica definida
         var arcPoints = _arc.CalculateArcPoints(origin, direction);
 
         // Dibujar la trayectoria en la escena
         _arcRend.RenderArc(arcPoints);
 
-        // 3. Gestionar el ghost en la posición final de la trayectoria
+        // Gestionar el ghost en la posicion final de la trayectoria
         bool validTarget = false;
         if (arcPoints != null && arcPoints.Count > 0)
         {
@@ -96,32 +93,31 @@ public class ActionPlayer : MonoBehaviour, IPlayerAction
         }
         else
         {
-            // Si por alguna razón no hay puntos, ocultar el ghost
+            // Si por alguna razon no hay puntos, ocultar el ghost
             _ghost.HideGhost();
         }
 
-        // 4. Comprobar entrada de disparo (puño o gatillo) y cooldown
-        bool firePressed = _input.GetTriggerOrFistDown();
+        //Comprobar entrada de disparo (pinch o gatillo) y cooldown
+        bool firePressed = _input.GetTriggerOrPinchDown();
         if (firePressed)
         {
-            // Si el disparo está activado y ha pasado el tiempo de cooldown
+            // Si el disparo esta activado y ha pasado el tiempo de cooldown
             if (Time.time - lastShootTime >= shootCooldown)
             {
-                // Solo disparar si hay un objetivo válido (ghost colocado sobre una superficie)
+                // Solo disparar si hay un objetivo valido (ghost colocado sobre una superficie)
                 if (validTarget && _ghost.IsGhostActive())
                 {
-                    // Instanciar el objeto real (cubo) en la posición del ghost
+                    // Instanciar el objeto real (cubo) en la posicion del ghost
                     Vector3 spawnPos = _ghost.GetGhostPosition();
                     Quaternion spawnRot = _ghost.GetGhostRotation();
                     _spawner.SpawnObject(spawnPos, spawnRot);
                 }
-                // Actualizar el tiempo del último disparo
+                // Actualizar el tiempo del ultimo disparo
                 lastShootTime = Time.time;
             }
         }
 
-        // Guardar estado de botón para lógica de una sola pulsación si se necesitara
-        wasFirePressed = firePressed;
+   
     }
 
     public void ClearCubes()
@@ -132,7 +128,7 @@ public class ActionPlayer : MonoBehaviour, IPlayerAction
 
     void OnDestroy()
     {
-        if (PlayerActionService.PlayerAction == this)
+        if ((object)PlayerActionService.PlayerAction == this)
             PlayerActionService.PlayerAction = null;
     }
 

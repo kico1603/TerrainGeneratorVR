@@ -5,7 +5,7 @@ public class GhostManager : MonoBehaviour, IGhostManager
     [Header("Referencia del objeto Ghost (marcador)")]
     [SerializeField] private GameObject ghostObject;
     [Tooltip("Máscara de capas para el raycast (ej: suelo).")]
-    [SerializeField] private LayerMask raycastLayers = ~0;  // por defecto, todas las capas
+    [SerializeField] private LayerMask raycastLayers = ~0;  
 
     private bool ghostActive = false;
 
@@ -38,7 +38,7 @@ public class GhostManager : MonoBehaviour, IGhostManager
         }
         else
         {
-            // Si no se impactó nada (por ejemplo, fuera de rango o sin suelo), ocultar el ghost
+            // Si no se impactó nada, ocultar el ghost
             if (ghostObject.activeSelf) 
                 ghostObject.SetActive(false);
 

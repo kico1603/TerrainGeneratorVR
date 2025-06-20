@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public interface IArcCalculator
@@ -6,5 +7,5 @@ public interface IArcCalculator
     /// <param name="origin">Punto de origen del lanzamiento.</param>
     /// <param name="direction">Dirección de lanzamiento (vector unitario).</param>
     /// <returns>Lista de puntos Vector3 que describen la trayectoria del proyectil.</returns>
-    System.Collections.Generic.List<Vector3> CalculateArcPoints(Vector3 origin, Vector3 direction);
+    List<Vector3> CalculateArcPoints(Vector3 origin, Vector3 direction);
 }

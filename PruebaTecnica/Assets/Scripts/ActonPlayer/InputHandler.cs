@@ -8,46 +8,11 @@ public class InputHandler : MonoBehaviour, IInputHandler
     [SerializeField] private Transform handTransform;
     [SerializeField] private Transform controllerTransform;
     [Tooltip("Cooldown entre disparos con el puño (segundos)")]
-    //[SerializeField] private float fistReleaseCooldown = 0.5f;
+  
 
-    //private bool lastFist = false;
-    //private float fistReleasedTime = 0f;
-    //private bool canTriggerFist = true;
-
-    public bool GetTriggerOrFistDown()
+    public bool GetTriggerOrPinchDown()
     {
-        //bool trigger = rightController != null && rightController.ControllerInput.TriggerButton;
-        //bool fist;
-
-        //if (hand != null)
-        //{
-        //    fist = IsFist(hand);
-
-        //    //if (fist && !lastFist && canTriggerFist)
-        //    //{
-        //    //    canTriggerFist = false;
-        //    //    lastFist = fist;
-        //    //    return true;
-        //    //}
-        //    //else if (!fist && lastFist)
-        //    //{
-        //    //    fistReleasedTime = Time.time;
-        //    //}
-
-        //    //if (!fist && !canTriggerFist && (Time.time - fistReleasedTime >= fistReleaseCooldown))
-        //    //{
-        //    //    canTriggerFist = true;
-        //    //}
-
-        //    //lastFist = fist;
-        //}
-        //// Si disparó por gatillo
-        //if (trigger)
-        //{
-        //    return true;
-        //}
-        //return false;
-
+       
         if (IsHandTracked())
         {
             return IsPinch(hand);

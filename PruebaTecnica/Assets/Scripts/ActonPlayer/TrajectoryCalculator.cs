@@ -16,6 +16,8 @@ public class TrajectoryCalculator : MonoBehaviour, IArcCalculator
     /// replicando la lógica del ActionPlayerOLD. Incluye cálculo del tiempo de vuelo y factor gravedad.
     /// Se detiene cuando el proyectil toca el suelo (y <= 0.01f).
     /// </summary>
+    /// TO-DO No quedo muy contento con el resultado deberia de cam,biarse el calculo de la curva para hacerla mas personalizable.
+
     public List<Vector3> CalculateArcPoints(Vector3 origin, Vector3 direction)
     {
         var points = new List<Vector3>();
